@@ -1,0 +1,24 @@
+ 
+        <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+               <h3><i class="icon-home"></i><a href="/" style=" color:black"> Home</a></h3>
+              <li class="<%= (controller_name == "static_pages" and action_name == "developer") ? "nav-header active" : "nav-header" %>">
+<%= link_to "Overview", developer_path %>
+
+</li>
+<li class="<%= (controller_name == "static_pages" and action_name == "api_basics") ? "nav-header active" : "nav-header" %>">
+<%= link_to "Basics", api_basics_path %></li>
+
+
+              <li class=""><h4>Basics</h4></li>
+              <li><a href="#">How we help improve donations</a></li>
+              <li><a href="#">How It Works</a></li>
+              <li><a href="#">Link</a></li>
+              <li class="nav-header"><a href="">Types</a></li>
+              <li class="<%= (controller_name == "static_pages" and action_name == "company_donation") ? "nav-header active" : "nav-header" %>"><%= link_to "Company donation", company_donation_path %></li>
+              <li class="<%= (controller_name == "static_pages" and action_name == "customer_donation") ? "nav-header active" : "nav-header" %>"><%= link_to "Customer Donation", customer_donation_path %></li>
+              <li class="<%= (controller_name == "static_pages" and action_name == "order_cancel") ? "nav-header active" : "nav-header" %>"><%= link_to "Order Cancellation", order_cancel_path %></li>
+              <li class="<%= (controller_name == "static_pages" and action_name == "order_reschedule") ? "nav-header active" : "nav-header" %>"><%= link_to "Order Rescheduling", order_reschedule_path %></li>
+    </ul>
+          </div>
+
