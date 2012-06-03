@@ -26,13 +26,13 @@
 
            <a class="brand" href="/">Tracksgiving </a>
              <ul class="nav">
-                <li class="active">
-    <a href="#">Home</a>
+                <li class="<%= (controller_name == "static_pages" and action_name == "index") ? "active" : "" %>">
+    <a href="/">Home</a>
     </li>
     <li><a href="#">Tracks</a></li>
 <li class="divider-vertical"></li>
 
-    <li><a href="#">Our links</a></li>
+    <li class="<%= (controller_name == "static_pages" and action_name == "developer" or action_name == "api_basics") ? "active" : "" %>" > <%= link_to "Developer's Corner", developer_path %></li>
 
 <li class="divider-vertical"></li>
 

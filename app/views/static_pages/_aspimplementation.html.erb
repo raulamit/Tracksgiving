@@ -1,0 +1,49 @@
+<span><</span>%Option Explicit%>
+<span><</span>!--#include file="./src/helper_functions.inc"-->
+<span><</span>!--#include file="./src/order.inc"-->
+<span><</span>!--#include file="./src/company_donation.inc"-->
+<span><</span>!--#include file="./src/customer_donation.inc"-->
+<span><</span>%
+	'	Creates a Company donation with the given attributes.
+	dim donation1, don1
+	Set donation1 = (New CompanyDonation)(22222222030303,"Ordered 2 shawls","2012-05-18","2012-05-21","C","scott.tiger@gmail.com","vHgYNS7dbotHjziuPCZQ","8caf7910-247e-012f-e4a5-442c03154814",2000,1)
+
+	Set don1 = donation1.invoke()
+
+	Response.Write "Success - " & don1.Success & "<span><</span>br>"
+	Response.Write don1.status & " :: " & don1.error & " :: <span><</span>b>Tracking url<span><</span>/b> - <span><</span>a href='" & don1.tracking_url & "'>" & don1.tracking_url & "<span><</span>/a>"
+
+	Response.Write "<span><</span>br><span><</span>br>"
+
+	'	Creates a Customer donation with the given attributes.
+	dim donation2, don2
+	Set donation2 = (New CustomerDonation)(22222222030304, "Ordered 3 shawls", "VISA Transaction #2394092049", "2012-10-20", "2012-10-29","120.302.03.30", "CHWEB","vHgYNS7dbotHjziuPCZQ", "07369b60-4bfd-012f-01f6-1231392834ed", 2000, 2, "Scott Tiger", "scott.tiger92@gmail.com", "UG_P", "AAAAA9999B", "TP_RI","203 Oceanic View", "IN", "MH", "Mumbai", "400001")
+
+	Set don2 = donation2.invoke()
+
+	Response.Write "Success - " & don2.Success & "<span><</span>br>"
+	Response.Write don2.status & " :: " & don2.error & " :: <span><</span>b>Tracking url<span><</span>/b> - <span><</span>a href='" & don2.tracking_url & "'>" & don2.tracking_url & "<span><</span>/a>"
+
+	Response.Write "<span><</span>br><span><</span>br>"
+
+	'	Creates an Order instance with the given attributes. Will be used to cancel the 1st donation subsequently.
+	Dim order1, ord1
+	Set order1 = (new Order)(22222222030304, "vHgYNS7dbotHjziuPCZQ", "customer cancelled order", "2012-05-19")
+
+	Set ord1 = order1.cancel()
+
+	Response.Write "Success - " & ord1.Success & "<span><</span>br>"
+	Response.Write ord1.status & " :: " & ord1.error
+
+	Response.Write "<span><</span>br><span><</span>br>"
+
+	'	Creates an Order instance with the given attributes. Will be used to reschedule the 2st donation subsequently.
+	Dim order2, ord2
+	Set order2 = (new Order)(22222222030303, "vHgYNS7dbotHjziuPCZQ", "Postponed because the boss says so", "2013-01-04")
+
+	Set ord2 = order2.reschedule()
+
+	Response.Write "Success - " & ord2.Success & "<span><</span>br>"
+	Response.Write ord2.status & " :: " & ord2.error
+
+%>

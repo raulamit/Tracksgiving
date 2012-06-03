@@ -4,34 +4,142 @@
                <div class="span2">
                    <%= render :partial => "static_pages/menu" %>
                </div>
-             <div class="span10">
+             <div class="span9">
                <h2>Order cancellations</h2>              
 
 
+<p>TracksGiving is a young, Mumbai based social enterprise helping businesses cause market. Our first major client is CARE India. They will use TracksGiving to manage their campaigns with corporates.</p>
+
+<p>TracksGiving is a young, Mumbai based social enterprise helping businesses cause market. Our first major client is CARE India. They will use TracksGiving to manage their campaigns with corporates.</p>
+
+<p>TracksGiving is a young, Mumbai based social enterprise helping businesses cause market. Our first major client is CARE India. They will use TracksGiving to manage their campaigns with corporates.</p>
+
+<p>TracksGiving is a young, Mumbai based social enterprise helping businesses cause market. Our first major client is CARE India. They will use TracksGiving to manage their campaigns with corporates.</p>
 <div class="tabbable">
     <ul class="nav nav-tabs">
     <li class="active"><a href="#tab1" data-toggle="tab">Ruby</a></li>
     <li><a href="#tab2" data-toggle="tab">PHP</a></li>
     <li><a href="#tab3" data-toggle="tab">ASP</a></li>
-    <li><a href="#tab4" data-toggle="tab">JAVA</a></li>
+     <li><a href="#tab3" data-toggle="tab">JAVA</a></li>
     </ul>
     <div class="tab-content">
     <div class="tab-pane active" id="tab1">
     <p>I'm in Section 1.</p>
+    <pre class="prettyprint
+    linenums">
+    &lt;p&gt;Sample text here...&lt;/p&gt;
+    </pre>
     </div>
     <div class="tab-pane" id="tab2">
-          <p>Howdy, I'm in Section 2.</p>
+    <p>Howdy, I'm in Section 2.</p>
+    <pre class="prettyprint linenums pre-scrollable">
+<li>&lt;p&gt;Sample text here...&lt;/p&gt;</li>
+<li>&lt;p&gt;Sample text here..&lt;/p&gt;</li>
+</pre>
      </div>
-     <div class="tab-pane" id="tab3">
+      <div class="tab-pane" id="tab3">
     <p>Howdy, I'm in Section 3.</p>
+
+ <pre class="prettyprint linenums pre-scrollable">
+<code>
+<span><</span><span>%=</span>
+
+Class Order
+		'	Private Attributes
+		Dim order_id, token, comment, due_date
+		
+		'	Methods of the class Order.
+		Public Default Function Init(id, token, comment, due_date)
+			Me.order_id = id
+			Me.token = token
+			Me.comment = comment
+			Me.due_date = due_date
+			Set Init = Me
+		End Function
+		
+		Public Function Validate()
+			If IsEmpty(order_id) OR IsEmpty(token) OR IsEmpty(comment) OR IsEmpty(due_date) Then
+				Validate = False
+			Else
+				Validate = True
+			End If
+		End Function
+		
+		Public Function Validate_Message()
+			Dim error_mess
+			
+			error_mess = "The errors are - "
+			if IsEmpty(order_id) then 
+				error_mess = error_mess & " order_id not set;"
+			End If
+			if IsEmpty(token) then
+				error_mess = error_mess & " token not set;"
+			End If
+			if IsEmpty(comment) then
+				error_mess = error_mess & " comment not set;"
+			End If
+			if IsEmpty(due_date) then
+				error_mess = error_mess & " due_date not set;" 
+			End If
+			
+			Set Validate_Message = (New APIResponse)(400, error_mess, "", "", "")
+		End Function
+		
+		Public Function cancel()
+			Dim base_url, response_xml, url
+
+		 	base_url= "https://secure.tracksgiving.com"
+			If Validate() Then
+				url = base_url & "/api/v1/orders/" & order_id & ".xml"
+
+				response_xml = api_caller(url,"_method=DELETE&token=" & token & "&comment=" & comment, "POST", "xml")
+				Set cancel = extract_from_xml(response_xml)
+			Else
+				Set cancel = Validate_Message()
+			End If
+		End Function
+		
+		Public Function reschedule()
+			If Validate() then
+				Dim base_url, response_xml, url
+
+				base_url = "https://secure.tracksgiving.com"
+				url = base_url & "/api/v1/orders/" & order_id & ".xml"
+				
+				response_xml = api_caller(url,"_method=PUT&token=" & token & "&due_date=" & due_date, "POST", "xml")
+				Set reschedule = extract_from_xml(response_xml)
+			Else 
+				Set reschedule = Validate_Message()
+			End If
+		End Function
+	End Class
+%>
+
+
+
+
+</code>
+</pre>
+
      </div>
      <div class="tab-pane" id="tab4">
     <p>Howdy, I'm in Section 4.</p>
-     </div>
-     
+         </div>
     </div>
+    
 
-               </div>
+ </div>
+<p>TracksGiving is a young, Mumbai based social enterprise helping businesses cause market. Our first major client is CARE India. They will use TracksGiving to manage their campaigns with corporates.</p>
+
+<p>TracksGiving is a young, Mumbai based social enterprise helping businesses cause market. Our first major client is CARE India. They will use TracksGiving to manage their campaigns with corporates.</p>
+
+<p>TracksGiving is a young, Mumbai based social enterprise helping businesses cause market. Our first major client is CARE India. They will use TracksGiving to manage their campaigns with corporates.</p>
+
+<p>TracksGiving is a young, Mumbai based social enterprise helping businesses cause market. Our first major client is CARE India. They will use TracksGiving to manage their campaigns with corporates.</p>
+         
+         <h3>Implementations</h3>
+</br>
+ <%= render :partial => "static_pages/implementation" %> 
           </div>
      </div>
 </div>

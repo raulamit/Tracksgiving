@@ -4,34 +4,361 @@
                <div class="span2">
                    <%= render :partial => "static_pages/menu" %>
                </div>
-               <div class="span10">
+               <div class="span9">
                <h2>Company Donations</h2>              
 
 
+<p>TracksGiving is a young, Mumbai based social enterprise helping businesses cause market. Our first major client is CARE India. They will use TracksGiving to manage their campaigns with corporates.</p>
+
+<p>TracksGiving is a young, Mumbai based social enterprise helping businesses cause market. Our first major client is CARE India. They will use TracksGiving to manage their campaigns with corporates.</p>
+
+<p>TracksGiving is a young, Mumbai based social enterprise helping businesses cause market. Our first major client is CARE India. They will use TracksGiving to manage their campaigns with corporates.</p>
+
+<p>TracksGiving is a young, Mumbai based social enterprise helping businesses cause market. Our first major client is CARE India. They will use TracksGiving to manage their campaigns with corporates.</p>
 <div class="tabbable">
     <ul class="nav nav-tabs">
     <li class="active"><a href="#tab1" data-toggle="tab">Ruby</a></li>
     <li><a href="#tab2" data-toggle="tab">PHP</a></li>
     <li><a href="#tab3" data-toggle="tab">ASP</a></li>
-    <li><a href="#tab3" data-toggle="tab">JAVA</a></li>
+     <li><a href="#tab4" data-toggle="tab">JAVA</a></li>
     </ul>
     <div class="tab-content">
     <div class="tab-pane active" id="tab1">
     <p>I'm in Section 1.</p>
+    <pre class="prettyprint
+    linenums">
+
+<code>
+
+	Class CompanyDonation
+		'	Attributes
+		Dim order_id, order_comment, order_submission_date, order_due_date, order_channel_code, order_customer_email, token, campaign_key
+		Dim donation_amount, project_id
+		
+		'	Methods of the class CompanyDonation
+		Public Default Function Init(order_id, order_comment, order_submission_date, order_due_date, order_channel_code, order_customer_email, token, campaign_key, donation_amount, project_id)
+			Me.order_id = order_id
+			Me.order_comment = order_comment
+			Me.order_submission_date = order_submission_date
+			Me.order_due_date = order_due_date
+			Me.order_channel_code = order_channel_code
+			Me.order_customer_email = order_customer_email
+			Me.token = token
+			Me.campaign_key = campaign_key
+			Me.donation_amount = donation_amount
+			Me.project_id = project_id
+			Set Init = Me
+		End Function
+		
+		Public Function Validate()
+			Dim regEx
+			Set regEx = New RegExp
+			regEx.Pattern = "^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w{2,}$"
+			
+			If IsEmpty(order_id) OR IsEmpty(order_comment) OR IsEmpty(order_submission_date) OR IsEmpty(order_due_date) OR IsEmpty(order_channel_code) OR IsEmpty(order_customer_email) OR IsEmpty(token) OR IsEmpty(campaign_key) OR IsEmpty(donation_amount) OR IsEmpty(project_id) Then
+			 	Validate = False
+			
+		    	ElseIf NOT regEx.Test(Trim(order_customer_email)) Then
+				Validate = False
+			ElseIf donation_amount <= 0 Then
+				Validate = False
+			Else
+				Validate = True
+			End If
+		End Function
+		
+		Public Function Validate_Message()
+			dim error_mess
+			error_mess = "The errors are - "
+			If IsEmpty(order_id) Then
+				error_mess = error_mess & " order_id not set;"
+			End If
+			If IsEmpty(order_comment) Then
+				error_mess = error_mess & " order_comment not set;"
+			End If
+			If IsEmpty(order_submission_date) Then
+				error_mess = error_mess & " order_submission_date not set;"
+			End If
+			If IsEmpty(order_due_date) Then
+				error_mess = error_mess & " order_due_date not set;"
+			End If
+			If IsEmpty(order_channel_code) Then
+				error_mess = error_mess & " order_channel_code not set;" 
+			End If
+			If IsEmpty(order_customer_email) Then
+				error_mess = error_mess & " order_customer_email not set;" 
+			End If
+			If IsEmpty(token) Then
+				error_mess = error_mess & " token not set;"
+			End If
+			If IsEmpty(campaign_key) Then
+				error_mess = error_mess & " campaign_key not set;"
+			End If
+			If IsEmpty(donation_amount) Then 
+				error_mess = error_mess & " donation_amount not set;"
+			End If
+			If IsEmpty(project_id) Then
+				error_mess = error_mess & " project_id not set;"
+			End If
+			
+			Dim regEx
+			Set regEx = New RegExp
+			regEx.Pattern = "^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w{2,}$"
+			
+			If NOT regEx.Test(Trim(order_customer_email)) Then
+				error_mess = error_mess & " order_customer_email not valid;"
+			End If
+			If donation_amount <= 0 Then
+				error_mess = error_mess & " donation_amount is negative/zero;"
+			End If
+
+			Set Validate_Message = (New APIResponse)(400, error_mess, "", "", "")
+		End Function
+		
+		Public Function invoke()
+			Dim base_url, xmlobject, response_xml
+			
+			base_url = "https://secure.tracksgiving.com"
+
+			If Validate() Then
+				xmlobject = "<?xml version=""1.0"" encoding=""utf-8""?><company_donation_request><order><id>" & order_id & "</id><comment>" & order_comment & "</comment><submission_date>" & order_submission_date & "</submission_date><due_date>" & order_due_date & "</due_date><channel_code>" & order_channel_code & "</channel_code><customer_email>" & order_customer_email & "</customer_email></order><donation><campaign_key>" & campaign_key & "</campaign_key><amount>" & donation_amount & "</amount><project_id>" & project_id & "</project_id></donation></company_donation_request>"
+
+				If (validate_xml(xmlobject, "company_donation")) Then
+					xmlobject = escape(xmlobject)
+					response_xml = api_caller(base_url & "/api/v1/company_donations.xml", "token=" & token & "&xmlobject=" & xmlobject,"POST","xml")
+					Set invoke = extract_from_xml(response_xml)
+				Else
+					Response.Write "XML validation failed.<br>"
+					Set invoke = xml_error(xmlobject,"company_donation")
+				End If
+			Else
+				Response.Write "Invalid input.<br>"
+				Set invoke = Validate_Message()
+			End If
+		End Function
+	End Class
+% >
+
+
+
+
+
+
+</code>
+
+    &lt;p&gt;Sample text here...&lt;/p&gt;
+    </pre>
     </div>
     <div class="tab-pane" id="tab2">
     <p>Howdy, I'm in Section 2.</p>
+    <pre class="prettyprint linenums pre-scrollable" style="padding-left:10px">
+<code>&lt;p&gt;Sample text here...&lt;/p&gt;
+&lt;p&gt;Sample text here..&lt;/p&gt;
+</code>
+</pre>
      </div>
       <div class="tab-pane" id="tab3">
     <p>Howdy, I'm in Section 3.</p>
+ <pre class="prettyprint linenums pre-scrollable">
+<code>
+<span><</span><span>%=</span>
+	Class CompanyDonation
+		'	Attributes
+		Dim order_id, order_comment, order_submission_date, order_due_date, order_channel_code, order_customer_email, token, campaign_key
+		Dim donation_amount, project_id
+		
+		'	Methods of the class CompanyDonation
+		Public Default Function Init(order_id, order_comment, order_submission_date, order_due_date, order_channel_code, order_customer_email, token, campaign_key, donation_amount, project_id)
+			Me.order_id = order_id
+			Me.order_comment = order_comment
+			Me.order_submission_date = order_submission_date
+			Me.order_due_date = order_due_date
+			Me.order_channel_code = order_channel_code
+			Me.order_customer_email = order_customer_email
+			Me.token = token
+			Me.campaign_key = campaign_key
+			Me.donation_amount = donation_amount
+			Me.project_id = project_id
+			Set Init = Me
+		End Function
+		
+		Public Function Validate()
+			Dim regEx
+			Set regEx = New RegExp
+			regEx.Pattern = "^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w{2,}$"
+			
+			If IsEmpty(order_id) OR IsEmpty(order_comment) OR IsEmpty(order_submission_date) OR IsEmpty(order_due_date) OR IsEmpty(order_channel_code) OR IsEmpty(order_customer_email) OR IsEmpty(token) OR IsEmpty(campaign_key) OR IsEmpty(donation_amount) OR IsEmpty(project_id) Then
+			 	Validate = False
+			
+		    	ElseIf NOT regEx.Test(Trim(order_customer_email)) Then
+				Validate = False
+			ElseIf donation_amount <= 0 Then
+				Validate = False
+			Else
+				Validate = True
+			End If
+		End Function
+		
+		Public Function Validate_Message()
+			dim error_mess
+			error_mess = "The errors are - "
+			If IsEmpty(order_id) Then
+				error_mess = error_mess & " order_id not set;"
+			End If
+			If IsEmpty(order_comment) Then
+				error_mess = error_mess & " order_comment not set;"
+			End If
+			If IsEmpty(order_submission_date) Then
+				error_mess = error_mess & " order_submission_date not set;"
+			End If
+			If IsEmpty(order_due_date) Then
+				error_mess = error_mess & " order_due_date not set;"
+			End If
+			If IsEmpty(order_channel_code) Then
+				error_mess = error_mess & " order_channel_code not set;" 
+			End If
+			If IsEmpty(order_customer_email) Then
+				error_mess = error_mess & " order_customer_email not set;" 
+			End If
+			If IsEmpty(token) Then
+				error_mess = error_mess & " token not set;"
+			End If
+			If IsEmpty(campaign_key) Then
+				error_mess = error_mess & " campaign_key not set;"
+			End If
+			If IsEmpty(donation_amount) Then 
+				error_mess = error_mess & " donation_amount not set;"
+			End If
+			If IsEmpty(project_id) Then
+				error_mess = error_mess & " project_id not set;"
+			End If
+			
+			Dim regEx
+			Set regEx = New RegExp
+			regEx.Pattern = "^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w{2,}$"
+			
+			If NOT regEx.Test(Trim(order_customer_email)) Then
+				error_mess = error_mess & " order_customer_email not valid;"
+			End If
+			If donation_amount <= 0 Then
+				error_mess = error_mess & " donation_amount is negative/zero;"
+			End If
+
+			Set Validate_Message = (New APIResponse)(400, error_mess, "", "", "")
+		End Function
+		
+		Public Function invoke()
+			Dim base_url, xmlobject, response_xml
+			
+			base_url = "https://secure.tracksgiving.com"
+
+			If Validate() Then
+				xmlobject = "<?xml version=""1.0"" encoding=""utf-8""?><company_donation_request><order><id>" & order_id & "</id><comment>" & order_comment & "</comment><submission_date>" & order_submission_date & "</submission_date><due_date>" & order_due_date & "</due_date><channel_code>" & order_channel_code & "</channel_code><customer_email>" & order_customer_email & "</customer_email></order><donation><campaign_key>" & campaign_key & "</campaign_key><amount>" & donation_amount & "</amount><project_id>" & project_id & "</project_id></donation></company_donation_request>"
+
+				If (validate_xml(xmlobject, "company_donation")) Then
+					xmlobject = escape(xmlobject)
+					response_xml = api_caller(base_url & "/api/v1/company_donations.xml", "token=" & token & "&xmlobject=" & xmlobject,"POST","xml")
+					Set invoke = extract_from_xml(response_xml)
+				Else
+					Response.Write "XML validation failed.<br>"
+					Set invoke = xml_error(xmlobject,"company_donation")
+				End If
+			Else
+				Response.Write "Invalid input.<br>"
+				Set invoke = Validate_Message()
+			End If
+		End Function
+	End Class
+<span>%</span><span>></span>
+
+
+
+
+
+
+</code>
+</pre>
      </div>
      <div class="tab-pane" id="tab4">
     <p>Howdy, I'm in Section 4.</p>
-     </div>
-     </div>
+
+  <pre class="prettyprint linenums pre-scrollable" style="margin-bottom: 9px;">
+<code><span><</span>?xml version="1.0" encoding="utf-8"?>
+<span><</span>xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.0">
+	<span><</span>xsd:element name="company_donation_request" type="company_donation_requestType"/>
+	<span><</span>xsd:complexType name="company_donation_requestType">
+		<span><</span>xsd:sequence>
+			<span><</span>xsd:element name="order" type="orderType" minOccurs="1" maxOccurs="1"/>
+			<span><</span>xsd:element name="donation" type="donationType" minOccurs="1" maxOccurs="1"/>
+		<span><</span>/xsd:sequence>
+	<span><</span>/xsd:complexType>
+	<span><</span>xsd:simpleType name="string_min2_max255">
+
+		<span><</span>xsd:restriction base="xsd:string">
+			<span><</span>xsd:minLength value="2"/>
+			<span><</span>xsd:maxLength value="255"/>
+		<span><</span>/xsd:restriction>
+	<span><</span>/xsd:simpleType>
+	<span><</span>xsd:complexType name="donationType">
+		<span><</span>xsd:sequence>
+			<span><</span>xsd:element name="campaign_key" type="string_min2_max255" minOccurs="1" maxOccurs="1"/>
+			<span><</span>xsd:element name="amount" type="xsd:decimal" minOccurs="1" maxOccurs="1"/>
+
+			<span><</span>xsd:element name="project_id" type="xsd:integer" minOccurs="1" maxOccurs="1"/>
+		<span><</span>/xsd:sequence>
+	<span><</span>/xsd:complexType>
+	<span><</span>xsd:complexType name="orderType">
+		<span><</span>xsd:sequence>
+			<span><</span>xsd:element name="id" type="string_min2_max255" minOccurs="1" maxOccurs="1"/>
+			<span><</span>xsd:element name="comment" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<span><</span>xsd:element name="submission_date" type="xsd:date" minOccurs="1" maxOccurs="1"/>
+			<span><</span>xsd:element name="due_date" type="xsd:date" minOccurs="1" maxOccurs="1"/>
+
+			<span><</span>xsd:element name="channel_code" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<span><</span>xsd:element name="customer_email" type="string_min2_max255" minOccurs="1" maxOccurs="1"/>
+		<span><</span>/xsd:sequence>
+	<span><</span>/xsd:complexType>
+<span><</span>/xsd:schema>
+
+
+</code>
+</pre>
+
+
+         </div>
+    </div>
     
 
  </div>
+ 
+     <table class="table">
+    
+    <thead>
+<tr>
+<th>zhhhhhh</th>
+<th>xd bhz</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>zg</td>
+<td>gzgd</td>
+</tr>
+</tbody>
+    
+ 
+     </table>
+    
+<p>TracksGiving is a young, Mumbai based social enterprise helping businesses cause market. Our first major client is CARE India. They will use TracksGiving to manage their campaigns with corporates.</p>
+
+<p>TracksGiving is a young, Mumbai based social enterprise helping businesses cause market. Our first major client is CARE India. They will use TracksGiving to manage their campaigns with corporates.</p>
+
+<p>TracksGiving is a young, Mumbai based social enterprise helping businesses cause market. Our first major client is CARE India. They will use TracksGiving to manage their campaigns with corporates.</p>
+
+<p>TracksGiving is a young, Mumbai based social enterprise helping businesses cause market. Our first major client is CARE India. They will use TracksGiving to manage their campaigns with corporates.</p>
+         <h3>Implementations</h3>
+</br>
+ <%= render :partial => "static_pages/implementation" %> 
           </div>
      </div>
 </div>
